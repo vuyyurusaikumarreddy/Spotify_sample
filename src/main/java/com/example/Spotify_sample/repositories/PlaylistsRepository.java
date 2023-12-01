@@ -13,10 +13,10 @@ import com.example.Spotify_sample.models.Playlists;
 @RepositoryRestResource
 public interface PlaylistsRepository extends JpaRepository<Playlists, Integer>{
 
-    @Query(value = "select p.id, p.playlist_id, p.playlist_name, p.playlist_info from playlists p, genre_subgenre gs, genres g where p.playlist_info = gs.id and gs.genre_id = g.id and g.name = :genre_name", nativeQuery = true)
+    @Query(value = "select p.id, p.playlist_id, p.playlist_name, p.playlist_info from playlists p, genre_subgenre gs, genres g where p.playlist_info = gs.id and gs.genre_id = g.id and g.name LIKE %:genre_name%", nativeQuery = true)
     public List<Playlists> findByGenre(String genre_name);
 
-    @Query(value = "select p.id, p.playlist_id, p.playlist_name, p.playlist_info from playlists p, genre_subgenre gs, genres g where p.playlist_info = gs.id and gs.genre_id = g.id and g.name = :subgenre_name", nativeQuery = true)
-    public List<Object> findBySubGenre(String subgenre_name);
+    @Query(value = "select p.id, p.playlist_id, p.playlist_name, p.playlist_info from playlists p, genre_subgenre gs, genres g where p.playlist_info = gs.id and gs.genre_id = g.id and g.name LIKE %:subgenre_name%", nativeQuery = true)
+    public List<Playlists> findBySubGenre(String subgenre_name);
     
 }
