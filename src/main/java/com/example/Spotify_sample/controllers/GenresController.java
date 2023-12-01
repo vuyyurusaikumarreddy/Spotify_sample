@@ -27,7 +27,7 @@ public class GenresController {
      * @return
      */
     @GetMapping("/genres/id")
-    public Genres findGenreIdByName(@RequestParam String genre_name){
+    public List<Genres> findGenreIdByName(@RequestParam String genre_name){
         return genresRepository.findByName(genre_name).get();
     }
 
@@ -42,8 +42,12 @@ public class GenresController {
     }
 
     @GetMapping("/genres/name/{genre_name}")
-    public Genres getGenreId(@PathVariable String genre_name){
-        return genresRepository.findByName(genre_name).get();
+    public List<Genres> searchByName(@PathVariable String genre_name){
+        List<Genres> genres = genresRepository.findByName(genre_name).get();
+        if(genres.size() > 0) {
+            return genres;
+        }
+        return genresRepository.findAll();
     }
 
 

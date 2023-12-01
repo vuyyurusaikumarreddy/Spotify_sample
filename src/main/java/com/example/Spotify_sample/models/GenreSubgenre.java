@@ -40,7 +40,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
 
@@ -54,11 +54,11 @@ public class GenreSubgenre {
     @Column(name = "id")
     private Integer id;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "genre_id")
     private Genres genre;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "subgenre_id")
     private SubGenres subGenre;
 }

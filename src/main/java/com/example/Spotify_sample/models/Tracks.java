@@ -4,7 +4,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.ManyToOne;
 import lombok.Data;
 
 @Entity
@@ -60,7 +60,7 @@ public class Tracks {
     @Column(name = "duration")
     private int duration;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "album_id")
     private Albums album_id;
 }

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -45,7 +46,7 @@ public class SubGenresController {
 
     @GetMapping("/subgenres/name")
     public String findSubGenreNameByGenreName(@RequestParam String genre_name){
-        Genres genres = genresRepository.findByName(genre_name).get();
+        Genres genres = genresRepository.findByName(genre_name).get().get(0);
         return genreSubGenreRepository.findByGenreId(genres.getId()).getGenre().getName();
     }
 
@@ -55,7 +56,14 @@ public class SubGenresController {
         return ResponseEntity.status(HttpStatus.ACCEPTED).body("Successfully inserted sub genres");
     }
     
-
+    @GetMapping("/subgenres/name/{subgenre_name}")
+    public List<SubGenres> searchByName(@PathVariable String subgenre_name){
+        List<SubGenres> subGenres = subGenresRepository.findByName(subgenre_name).get();
+        if(subGenres.size() > 0) {
+            return subGenres;
+        }
+        return subGenresRepository.findAll();
+    }
 
 
 }
