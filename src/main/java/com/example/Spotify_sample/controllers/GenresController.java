@@ -3,6 +3,7 @@ package com.example.Spotify_sample.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -12,6 +13,7 @@ import com.example.Spotify_sample.models.Genres;
 import com.example.Spotify_sample.repositories.GenresRepository;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:3000/", allowCredentials = "true")
 public class GenresController {
     
     @Autowired

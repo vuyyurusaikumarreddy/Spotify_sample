@@ -21,8 +21,11 @@ public interface TracksRepository extends JpaRepository<Tracks, String>{
     // @Query("SELECT t FROM Tracks t JOIN t.album a WHERE a.name LIKE %:artistName%")
     public Optional<List<Map<String, Object>>> findByArtists(String artistName);
 
-    @Query(value = "SELECT t from Tracks t, Albums a where t.album_id = a.id and a.name LIKE %:album_name%", nativeQuery = true)
+    @Query(value = "SELECT album, STRING_AGG(tracks, ',&& ') AS tracks FROM (SELECT t.name as tracks, a.name as album from Tracks t, Albums a where t.album_id = a.id and a.name LIKE %:album_name% group by tracks, album order by a.name) GROUP BY album", nativeQuery = true)
     public Optional<List<Map<String, Object>>> findByAlbum(String album_name);
+
+    public Optional<Tracks> findByName(String track_name);
+
     
 
 

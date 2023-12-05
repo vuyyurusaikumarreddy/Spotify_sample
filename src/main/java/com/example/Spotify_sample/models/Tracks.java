@@ -1,7 +1,10 @@
 package com.example.Spotify_sample.models;
 
+import org.hibernate.annotations.UuidGenerator;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -15,6 +18,7 @@ import lombok.Data;
 public class Tracks {
 
     @Id
+    @UuidGenerator
     @Column(name = "id")
     private String id;
 
@@ -76,14 +80,14 @@ public class Tracks {
     @Column(name = "duration")
     private int duration;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "album_id")
     private Albums album_id;
 
     public Tracks() {
 
     }
-    
+
     public Tracks(String id, String name, String artist, Albums album_id) {
         this.id = id;
         this.name = name;
