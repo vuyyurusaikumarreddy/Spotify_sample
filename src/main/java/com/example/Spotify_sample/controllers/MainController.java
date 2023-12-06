@@ -22,7 +22,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000/", allowCredentials = "true")
+@CrossOrigin(origins = {"http://localhost:3000/", "http://localhost:3000/Home"}, allowCredentials = "true")
 public class MainController {
     
     @Autowired
@@ -79,6 +79,12 @@ public class MainController {
     public Tracks getTracks(@PathVariable String track_name) {
         Tracks track = tracksRepository.findByName(track_name).get();
         return track;
+    }
+    
+    @GetMapping("/tracks")
+    public List<String> getTracks() {
+        List<String> trackNames = tracksRepository.findNames();
+        return trackNames.subList(0, 20);
     }
 
     @PostMapping("/tracks/insertTrack")

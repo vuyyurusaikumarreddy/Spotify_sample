@@ -26,6 +26,9 @@ public interface TracksRepository extends JpaRepository<Tracks, String>{
 
     public Optional<Tracks> findByName(String track_name);
 
+    @Query(value = "SELECT name from tracks", nativeQuery = true)
+    public List<String> findNames();
+
     
 
 
