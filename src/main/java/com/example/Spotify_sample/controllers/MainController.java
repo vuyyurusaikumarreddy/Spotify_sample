@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.Spotify_sample.models.Playlists;
@@ -76,9 +77,15 @@ public class MainController {
     }
 
     @GetMapping("/tracks/{track_name}")
-    public Tracks getTracks(@PathVariable String track_name) {
-        Tracks track = tracksRepository.findByName(track_name).get();
+    public List<Tracks> getTracks(@PathVariable String track_name) {
+        List<Tracks> track = tracksRepository.findByName(track_name).get();
         return track;
+    }
+
+    @GetMapping("/tracks/search")
+    public List<String> getTracksParam(@RequestParam String track_name) {
+        List<String> tracks = tracksRepository.findByNameParam(track_name).get();
+        return tracks;
     }
     
     @GetMapping("/tracks")
