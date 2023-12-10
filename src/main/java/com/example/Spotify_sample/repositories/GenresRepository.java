@@ -18,6 +18,9 @@ public interface GenresRepository extends JpaRepository<Genres, Integer>{
     // @Query("select g from genres g where g.name like %:name%")
     @Query("SELECT g FROM Genres g WHERE g.name LIKE %:name%")
     public Optional<List<Genres>> findByName(String name);
+
+    @Query(value = "SELECT name from genres", nativeQuery = true)
+    public List<String> findNames();
     
     
 }

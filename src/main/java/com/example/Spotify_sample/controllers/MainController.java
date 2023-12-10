@@ -1,5 +1,6 @@
 package com.example.Spotify_sample.controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -7,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -89,9 +91,9 @@ public class MainController {
     }
     
     @GetMapping("/tracks")
-    public List<String> getTracks() {
-        List<String> trackNames = tracksRepository.findNames();
-        return trackNames.subList(0, 20);
+    public List<Map<String, Object>> getTracks() {
+        List<Map<String, Object>> tracks = tracksRepository.findNamesAndArtists();
+        return tracks;
     }
 
     @PostMapping("/tracks/insertTrack")
@@ -100,6 +102,12 @@ public class MainController {
         tracksRepository.save(track);
 
         return ResponseEntity.status(HttpStatus.CREATED).body("Track with album inserted succesfully");
+    }
+
+    @GetMapping("/playlists/getPlaylists")
+    public List<Map<String, Object>> getPlaylists() {
+        List<Map<String, Object>> playlists = playlistsRepository.findBy();
+        return playlists;
     }
 
 
@@ -137,15 +145,51 @@ public class MainController {
         String playlist_name = playlists.get("playlist_name").toString();
         String playlist_id = playlists.get("playlist_id").toString();
 
-            if(playlists.get("genre") == null || playlists.get("subGenre") == null ) {
+            if(playlists.get("genre") == null || playlists.get("subgenre") == null ) {
                 playlistsRepository.insertPlaylist(playlist_id, playlist_name, (Integer)playlists.get("playlist_info"));
                 return ResponseEntity.status(HttpStatus.CREATED).body("Playlist " + playlist_name + "succesfully");
         
             }
-            int id = genreSubgenreController.getGenreSubgenreByGenreIdAndSubGenreId(genresController.findGenreIdByName(playlists.get("genre").toString()).get(0).getId(), subGenresController.searchByName(playlists.get("subGenre").toString()).get(0).getId());
+            int id = genreSubgenreController.getGenreSubgenreByGenreIdAndSubGenreId(genresController.findGenreIdByName(playlists.get("genre").toString()).get(0).getId(), subGenresController.searchByName(playlists.get("subgenre").toString()).get(0).getId());
             playlistsRepository.insertPlaylist(playlists.get("playlist_id").toString(), playlists.get("playlist_name").toString(), id);
 
             return ResponseEntity.status(HttpStatus.CREATED).body("Playlist " + playlists.get("playlist_name") + "succesfully");
+        }
+
+
+        @GetMapping("/playlists/getPlaylistsAndTracks/{playlist_name}")
+        public List<Map<String, Object>> getPlaylistsAndTracks(@PathVariable String playlist_name) {
+            List<Map<String, Object>> playlists = new ArrayList<>();
+            playlists = playlistsRepository.findPlaylistsAndTracks(playlist_name);
+            return playlists;
+
+        }
+
+        @DeleteMapping("playlistTrack/deleteTrackFromPlaylist")
+        public ResponseEntity<String> deleteTrackFromPlaylist(@RequestParam String playlist_name, String track_name) {
+            // String playlist_name = request.get("playlist_name").toString();
+            // String track_name = request.get("track_name").toString();
+            playlistsRepository.deleteTrackFromPlaylist(playlist_name, track_name);
+            return ResponseEntity.status(HttpStatus.OK).body("Removed Track " + track_name + "from Playlist" + playlist_name + "succesfully");
+        }
+
+        @GetMapping("playlists/getPlaylistNames")
+        public List<String> getPlaylistNames() {
+            List<String> playlistNames = playlistsRepository.findNames();
+            return playlistNames;
+        }
+
+        @PostMapping("/playlists/insertTrackToPlaylist")
+        public ResponseEntity<String> insertTrackToPlaylist(@RequestBody Map<String,Object> request) {
+            if(request.get("playlist_name") == null || request.get("playlist_name").toString().isEmpty() || request.get("playlist_name").toString().isBlank()){
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Please select the Playlist Name");
+            }
+
+            String track_name = request.get("track_name").toString();
+            String playlist_name = request.get("playlist_name").toString();
+            playlistsRepository.insertTrackToPlaylist(track_name, playlist_name);
+
+            return ResponseEntity.status(HttpStatus.OK).body("Track " + playlist_name + "inserted to playlist" + playlist_name + "successfully");
         }
 
         

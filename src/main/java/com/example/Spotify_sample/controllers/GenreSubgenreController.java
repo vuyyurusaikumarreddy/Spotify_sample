@@ -22,6 +22,11 @@ public class GenreSubgenreController {
         return genreSubGenreRepository.findByGenre(null);
     }
 
+    /**
+     * @param genre_id
+     * @param subgenre_id
+     * @return
+     */
     @GetMapping("genreSubgenre")
     public int getGenreSubgenreByGenreIdAndSubGenreId(@RequestParam int genre_id, int subgenre_id) {
         

@@ -24,5 +24,5 @@ public class Albums {
     private String name;
 
     @Column(name = "release_date")
-    private Date releasDate; 
+    private Date releaseDate; 
 }

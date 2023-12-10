@@ -58,6 +58,11 @@ public class SubGenresController {
         return ResponseEntity.status(HttpStatus.ACCEPTED).body("Successfully inserted sub genres");
     }
     
+    @GetMapping("/subgenres/getNames")
+    public List<String> getSubGenreNames() {
+        return subGenresRepository.findNames();
+    }
+
     @GetMapping("/subgenres/name/{subgenre_name}")
     public List<SubGenres> searchByName(@PathVariable String subgenre_name){
         List<SubGenres> subGenres = subGenresRepository.findByName(subgenre_name).get();

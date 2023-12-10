@@ -24,6 +24,11 @@ public class GenresController {
         return genresRepository.findAll();
     }
 
+    @GetMapping("/genres/getNames")
+    public List<String> getGenreNames() {
+        return genresRepository.findNames();
+    }
+
     /**
      * @param id
      * @return

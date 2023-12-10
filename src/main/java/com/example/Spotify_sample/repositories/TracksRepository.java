@@ -30,8 +30,8 @@ public interface TracksRepository extends JpaRepository<Tracks, String>{
     @Query(value = "select name from tracks where name LIKE %:track_name%", nativeQuery = true)
     public Optional<List<String>> findByNameParam(String track_name);
 
-    @Query(value = "SELECT name from tracks", nativeQuery = true)
-    public List<String> findNames();
+    @Query(value = "SELECT name, artist from tracks", nativeQuery = true)
+    public List<Map<String, Object>> findNamesAndArtists();
 
     
 

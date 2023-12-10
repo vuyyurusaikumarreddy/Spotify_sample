@@ -16,5 +16,8 @@ public interface SubGenresRepository extends JpaRepository<SubGenres, Integer>{
     
     @Query("SELECT s FROM SubGenres s WHERE s.name LIKE %:name%")
     public Optional<List<SubGenres>> findByName(String name);
+
+    @Query(value = "SELECT name from subgenres", nativeQuery = true)
+    public List<String> findNames();
     
 }
