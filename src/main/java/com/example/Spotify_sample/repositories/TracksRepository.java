@@ -6,13 +6,11 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.stereotype.Repository;
 
 import com.example.Spotify_sample.models.Tracks;
 
 @Repository
-@RepositoryRestResource
 public interface TracksRepository extends JpaRepository<Tracks, String>{
     
     // @Query(value = "select t.id, t.name, t.artist, t.album_id, t.acousticness, t.loudness, t.mode, t.popularity, t.speechiness, t.danceability, t.duration, t.valence, t.tempo, t.energy, t.instrumentalness, t.key, t.liveness from Tracks t, Albums a where t.album_id = a.id and a.name LIKE %:artistName%", nativeQuery = true)
