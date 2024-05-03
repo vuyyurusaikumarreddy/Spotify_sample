@@ -1,0 +1,66 @@
+# version: '3.8'
+
+# services:
+#   app:
+#     image: 'docker-spring-boot-postgres:latest'
+#     build:
+#       context: .
+#     container_name: spotify
+#     depends_on:
+#       - db
+#     environment:
+#       - SPRING_DATASOURCE_URL=jdbc:postgresql://localhost:5432/spotify
+#       - SPRING_DATASOURCE_USERNAME=saikumarreddyvuyyuru
+#       - SPRING_DATASOURCE_PASSWORD=saikumar
+#       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+#       - SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT=org.hibernate.dialect.PostgreSQLDialect
+          
+#   db:
+#     image: 'postgres:alpine3.19'
+#     container_name: db
+#     environment:
+#       - POSTGRES_USER=saikumarreddyvuyyuru
+#       - POSTGRES_PASSWORD=saikumar
+
+version: '3.8'
+
+services:
+  app:
+    image: 'docker-spring-boot-postgres:latest'
+    build:
+      context: .
+    container_name: app
+    depends_on:
+      - db
+    # environment:
+    #   - POSTGRES_USER=saikumarreddyvuyyuru
+    #   - POSTGRES_PASSWORD=saikumar
+    #   - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/spotify
+    #   - SPRING_DATASOURCE_USERNAME=saikumarreddyvuyyuru
+    #   - SPRING_DATASOURCE_PASSWORD=saikumar
+    #   - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+    environment:
+      - POSTGRES_USER=spotify_owner
+      - POSTGRES_PASSWORD=pXugUs2jCW7Y
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://ep-restless-glade-a5yr71xi.us-east-2.aws.neon.tech/spotify?user=spotify_owner&password=pXugUs2jCW7Y&sslmode=require
+      - SPRING_DATASOURCE_USERNAME=spotify_owner
+      - SPRING_DATASOURCE_PASSWORD=pXugUs2jCW7Y
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+    ports:
+      - "8081:8080"
+  
+  
+
+  db:
+    image: postgres
+    container_name: db
+    environment:
+      - POSTGRES_USER=spotify_owner
+      - POSTGRES_PASSWORD=pXugUs2jCW7Y
+      - POSTGRES_DB=spotify
+    volumes:
+      - postgres-data:/var/lib/postgresql
+    ports:
+      - "5430:5432"
+volumes:
+  postgres-data:
