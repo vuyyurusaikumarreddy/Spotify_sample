@@ -30,14 +30,14 @@ public class GenreSubgenreController {
     @GetMapping("genreSubgenre")
     public int getGenreSubgenreByGenreIdAndSubGenreId(@RequestParam int genre_id, int subgenre_id) {
         
-        int id = 0;
             try {
-                id = genreSubGenreRepository.findIdByGenreAndSubGenre(genre_id, subgenre_id);
+                genreSubGenreRepository.findIdByGenreAndSubGenre(genre_id, subgenre_id);
             } catch (Exception e) {
                 
                 genreSubGenreRepository.insertGenreSubgenre(genre_id, subgenre_id);
-                id = genreSubGenreRepository.findIdByGenreAndSubGenre(genre_id, subgenre_id);
+                genreSubGenreRepository.findIdByGenreAndSubGenre(genre_id, subgenre_id);
             }
+        
         return genreSubGenreRepository.findIdByGenreAndSubGenre(genre_id, subgenre_id);
     }
 }
