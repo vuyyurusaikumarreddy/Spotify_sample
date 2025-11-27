@@ -44,6 +44,8 @@ public class AlbumsController {
     }
     @GetMapping("")
     public List<Albums> getAlbumsByName(@RequestParam String albumName) {
+        String al = albumName;
+        System.out.println(al);
         return albumsRepository.findByName(albumName);
     }
 
